@@ -12,6 +12,18 @@ class MyPhonebook extends Component {
         contacts: [],
         filter: "",
     }
+    componentDidMount() {
+        const contacts = JSON.parse(localStorage.getItem("my-contacts"));
+        if (contacts?.length) {
+          this.setState({ contacts })   
+        }
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        const { contacts } = this.state;
+        if (prevState.contacts.length !== contacts.length)
+            localStorage.setItem("my-contacts", JSON.stringify(contacts));
+    }
 
     removeContact = (id) => {
         this.setState(({contacts}) => {
